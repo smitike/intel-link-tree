@@ -37,7 +37,13 @@ export function ProfileHeader() {
         {profile.location}
       </p>
       <p className="mt-3 inline-flex flex-wrap items-center justify-center gap-2 text-[15px] leading-relaxed text-foreground/85">
-        <span className="font-medium">{profile.status}</span>
+        <span className="relative inline-flex items-center gap-2">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-highlight opacity-75" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-highlight" />
+          </span>
+          <span className="font-medium">{profile.status}</span>
+        </span>
         <span aria-hidden className="text-muted-foreground/60">·</span>
         <span className="text-foreground/75">{profile.graduation}</span>
       </p>
