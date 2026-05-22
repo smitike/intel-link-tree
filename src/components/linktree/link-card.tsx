@@ -24,9 +24,9 @@ export function LinkCard({ link, index, highlighted, dimmed, matchLabel, explana
         target="_blank"
         rel="noreferrer noopener"
         className={cn(
-          "group relative flex items-center gap-4 rounded-2xl border border-border/70 bg-card px-4 py-4 sm:px-5",
+          "group relative flex items-center gap-4 rounded-2xl border border-border/60 bg-card/70 backdrop-blur-xl px-4 py-4 sm:px-5",
           "shadow-[var(--shadow-soft)] transition-all duration-[var(--transition-base)]",
-          "hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)] hover:border-primary/40",
+          "hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)] hover:border-primary/50 hover:bg-card/85",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           highlighted && "border-primary/60 animate-link-pulse",
           dimmed && "opacity-40 saturate-50",
