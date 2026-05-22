@@ -164,8 +164,8 @@
 }
 
 @keyframes link-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 oklch(0.82 0.18 95 / 0.5), var(--shadow-card); }
-  50% { box-shadow: 0 0 0 8px oklch(0.82 0.18 95 / 0), var(--shadow-glow); }
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.82 0.15 75 / 0.55), var(--shadow-card); }
+  50% { box-shadow: 0 0 0 10px oklch(0.82 0.15 75 / 0), var(--shadow-glow); }
 }
 
 @keyframes fade-up {
