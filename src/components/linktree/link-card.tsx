@@ -24,27 +24,27 @@ export function LinkCard({ link, index, highlighted, dimmed, matchLabel, explana
         target="_blank"
         rel="noreferrer noopener"
         className={cn(
-          "group relative flex items-center gap-4 rounded-2xl border border-border/60 bg-card/70 backdrop-blur-xl px-4 py-4 sm:px-5",
-          "shadow-[var(--shadow-soft)] transition-all duration-[var(--transition-base)]",
-          "hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)] hover:border-primary/50 hover:bg-card/85",
+          "group relative flex items-center gap-4 rounded-2xl border-2 border-primary/40 bg-card/90 backdrop-blur-xl px-4 py-5 sm:px-5",
+          "shadow-[var(--shadow-card)] transition-all duration-[var(--transition-base)]",
+          "hover:-translate-y-0.5 hover:shadow-[var(--shadow-glow)] hover:border-primary hover:bg-card",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          highlighted && "border-primary/60 animate-link-pulse",
+          highlighted && "border-primary animate-link-pulse",
           dimmed && "opacity-40 saturate-50",
         )}
       >
         <span
           className={cn(
-            "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-secondary text-secondary-foreground transition-colors",
+            "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/20 text-primary transition-colors",
             "group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary",
             highlighted && "bg-primary text-primary-foreground border-primary",
           )}
         >
-          <Icon className="h-5 w-5" aria-hidden />
+          <Icon className="h-5 w-5" aria-hidden strokeWidth={2.5} />
         </span>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="truncate text-[15px] font-semibold text-foreground">
+            <span className="truncate text-base font-bold tracking-tight text-foreground">
               {link.title}
             </span>
             {highlighted && (
