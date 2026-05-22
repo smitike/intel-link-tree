@@ -1,17 +1,75 @@
 import { FileText, Linkedin, Github, BookOpen, Rocket, type LucideIcon } from "lucide-react";
 
+/**
+ * A "facet" is one matchable angle of a link — e.g. one role on a resume,
+ * one project on GitHub. The smart search scores facets, not whole links,
+ * so the explanation we surface always carries real context like
+ * "[Software Engineering Intern]: ...".
+ *
+ * To wire real data in later, just replace `links` with entries that point
+ * at real URLs and describe real facets. The matcher is data-driven.
+ */
+export type LinkFacet = {
+  /** Short context label shown before the explanation, e.g. a role title. */
+  label: string;
+  /** Concept tags this facet covers. Tags are matched by the concept graph. */
+  concepts: string[];
+  /** Descriptive sentence — one line, specific, accomplishment-oriented. */
+  explanation: string;
+};
+
 export type LinkItem = {
   id: string;
   title: string;
   url: string;
   description: string;
   icon: LucideIcon;
-  /** Hidden metadata used by the AI-assisted smart search. */
-  metadata: {
-    keywords: string[];
-    /** Map of keyword -> short, human explanation of why this link matches. */
-    explanations: Record<string, string>;
-  };
+  /** Facets the smart search can match against. */
+  facets: LinkFacet[];
+};
+
+/**
+ * Concept graph: maps a canonical concept to related words / synonyms / intent.
+ * Searching for any term in a group will match facets tagged with the
+ * canonical concept. Keep terms lowercase.
+ *
+ * This is what makes the search feel "AI-assisted" — "debugging" finds
+ * "can-bus diagnostics" because both live in the debugging cluster.
+ */
+export const conceptGraph: Record<string, string[]> = {
+  "can-bus": ["can bus", "canbus", "can", "vehicle network", "automotive", "ecu", "obd"],
+  debugging: [
+    "debug", "debugging", "diagnostics", "diagnostic", "troubleshoot",
+    "troubleshooting", "error", "errors", "fault", "bug", "bugs", "fix", "fixing",
+  ],
+  kubernetes: ["k8s", "kubernetes", "kube", "container orchestration", "pods", "helm"],
+  docker: ["docker", "containers", "containerization", "containerized"],
+  devops: ["devops", "ci/cd", "ci", "cd", "pipelines", "infrastructure", "infra", "sre"],
+  cloud: ["cloud", "aws", "gcp", "azure", "ec2", "s3", "lambda", "serverless"],
+  frontend: [
+    "frontend", "front-end", "front end", "ui", "ux", "interface", "react",
+    "vite", "tailwind", "css", "design system", "animation", "animations",
+  ],
+  backend: ["backend", "back-end", "back end", "api", "apis", "node", "server", "rest", "graphql"],
+  typescript: ["typescript", "ts", "type safety", "types"],
+  python: ["python", "py", "data science", "scripting"],
+  rust: ["rust", "systems programming", "memory safety"],
+  ai: [
+    "ai", "artificial intelligence", "ml", "machine learning", "model",
+    "models", "llm", "llms", "deep learning", "neural network", "neural",
+    "inference", "training",
+  ],
+  research: [
+    "research", "paper", "academic", "publication", "study", "experiment",
+    "aiea", "lab", "thesis",
+  ],
+  "virtual desktops": ["virtual desktop", "virtual desktops", "vdi", "remote desktop"],
+  leadership: ["leadership", "lead", "led", "mentor", "mentoring", "manage", "management", "team"],
+  internship: ["intern", "internship", "internships", "co-op", "coop"],
+  hackathon: ["hackathon", "hackathons", "weekend build", "prototype", "demo day", "win", "winner", "award"],
+  "open source": ["open source", "open-source", "oss", "contribution", "contributions", "pull request", "pr"],
+  network: ["network", "networking", "connect", "connection", "recommendation", "recommendations", "endorsement"],
+  career: ["career", "experience", "work history", "background", "resume", "cv"],
 };
 
 export const links: LinkItem[] = [
@@ -21,43 +79,38 @@ export const links: LinkItem[] = [
     url: "https://example.com/resume.pdf",
     description: "Full work history, skills, and education",
     icon: FileText,
-    metadata: {
-      keywords: [
-        "kubernetes", "k8s", "docker", "devops", "aiea", "virtual desktops",
-        "research", "typescript", "react", "node", "aws", "cloud",
-        "internship", "experience", "work", "leadership",
-      ],
-      explanations: {
-        kubernetes:
-          "Worked with Kubernetes to deploy virtual desktops during their AIEA research membership.",
-        k8s:
-          "Used K8s for orchestrating virtual desktop pods as part of AIEA research.",
-        docker:
-          "Containerized research workloads with Docker before shipping to Kubernetes.",
-        devops:
-          "Built CI/CD pipelines and managed infra during multiple internships — full timeline on the resume.",
-        aiea:
-          "Member of the AIEA research group — deployed virtual desktops on Kubernetes.",
-        "virtual desktops":
-          "Deployed virtual desktops on Kubernetes as part of AIEA research.",
-        typescript:
-          "Primary language across most recent roles — see the experience section.",
-        react:
-          "Several years of production React experience listed under work history.",
-        node:
-          "Backend services with Node.js across internships and side projects.",
-        aws:
-          "AWS infra (EC2, S3, Lambda) used in prior internships.",
-        cloud:
-          "Cloud infra experience spans AWS and self-hosted Kubernetes clusters.",
-        internship:
-          "All internships, dates, and stacks are documented on the resume.",
-        experience:
-          "Complete professional history with stacks and impact lives on the resume.",
-        leadership:
-          "Led small teams during research and hackathon projects — see resume highlights.",
+    facets: [
+      {
+        label: "Software Engineering Intern · Automotive",
+        concepts: ["can-bus", "debugging", "backend", "typescript", "internship"],
+        explanation:
+          "Reduced CAN-bus debugging time by building an automatic error diagnostic and reporting service that flags faults in real time.",
       },
-    },
+      {
+        label: "AIEA Research Member",
+        concepts: ["research", "kubernetes", "docker", "virtual desktops", "devops", "ai"],
+        explanation:
+          "Deployed AI research virtual desktops on Kubernetes, containerizing workloads with Docker and shipping a self-serve provisioning flow.",
+      },
+      {
+        label: "Frontend Internship",
+        concepts: ["frontend", "typescript", "internship", "leadership"],
+        explanation:
+          "Shipped a production React + TypeScript design system and mentored two incoming interns through their first PRs.",
+      },
+      {
+        label: "Cloud Infrastructure",
+        concepts: ["cloud", "devops", "backend"],
+        explanation:
+          "Owned AWS infra (EC2, S3, Lambda) and CI/CD pipelines across two roles — see the resume for the full timeline.",
+      },
+      {
+        label: "Career Overview",
+        concepts: ["career"],
+        explanation:
+          "Complete professional history, education, and skills with dates and impact metrics.",
+      },
+    ],
   },
   {
     id: "linkedin",
@@ -65,16 +118,20 @@ export const links: LinkItem[] = [
     url: "https://linkedin.com/in/example",
     description: "Professional network and endorsements",
     icon: Linkedin,
-    metadata: {
-      keywords: ["network", "recommendations", "endorsements", "connect", "linkedin", "career"],
-      explanations: {
-        network: "Best place to connect and see mutual contacts.",
-        recommendations: "Public recommendations from past managers and teammates.",
-        endorsements: "Skill endorsements from colleagues live on LinkedIn.",
-        connect: "Send a connection request on LinkedIn.",
-        career: "High-level career timeline and education on LinkedIn.",
+    facets: [
+      {
+        label: "Professional Network",
+        concepts: ["network", "career"],
+        explanation:
+          "Best place to connect, see mutual contacts, and browse the high-level career timeline.",
       },
-    },
+      {
+        label: "Recommendations",
+        concepts: ["network", "leadership"],
+        explanation:
+          "Public recommendations and skill endorsements from past managers and teammates.",
+      },
+    ],
   },
   {
     id: "github",
@@ -82,23 +139,26 @@ export const links: LinkItem[] = [
     url: "https://github.com/example",
     description: "Open-source projects and contributions",
     icon: Github,
-    metadata: {
-      keywords: [
-        "open source", "code", "projects", "typescript", "python", "rust",
-        "side projects", "contributions", "github", "repos",
-      ],
-      explanations: {
-        "open source":
-          "All public open-source contributions are pinned on GitHub.",
-        code: "Browse repos and recent commits on GitHub.",
-        projects:
-          "Personal side projects, including CLI tools and web apps, live on GitHub.",
-        python: "Several Python projects pinned on GitHub.",
-        rust: "Experimental Rust projects available on GitHub.",
-        contributions: "PRs to popular OSS libraries are visible on the GitHub profile.",
-        repos: "All public repositories live on GitHub.",
+    facets: [
+      {
+        label: "Open-Source Contributions",
+        concepts: ["open source", "typescript", "frontend"],
+        explanation:
+          "Merged PRs into popular TypeScript and React libraries — all pinned on the GitHub profile.",
       },
-    },
+      {
+        label: "Side Projects",
+        concepts: ["python", "rust", "backend"],
+        explanation:
+          "Personal experiments in Python and Rust, including CLI tools and a small key-value store.",
+      },
+      {
+        label: "Frontend Playground",
+        concepts: ["frontend", "ui", "animation"],
+        explanation:
+          "Animation and design-system experiments built with React, Vite, and Tailwind.",
+      },
+    ],
   },
   {
     id: "research",
@@ -106,26 +166,20 @@ export const links: LinkItem[] = [
     url: "#",
     description: "Unpublished — AIEA research, available on request",
     icon: BookOpen,
-    metadata: {
-      keywords: [
-        "research", "paper", "aiea", "ml", "machine learning", "ai",
-        "kubernetes", "virtual desktops", "academic", "publication",
-      ],
-      explanations: {
-        research:
-          "Co-authored research from the AIEA group — not yet published, available on request.",
-        paper:
-          "Draft paper from AIEA research membership — reach out for a copy.",
-        aiea:
-          "Core deliverable of the AIEA research membership.",
-        ml:
-          "Research explores ML workloads on virtualized desktop infrastructure.",
-        "machine learning":
-          "Paper covers ML workloads running on Kubernetes-backed virtual desktops.",
-        ai: "AI research conducted as part of the AIEA group.",
-        academic: "Academic work — not yet published.",
+    facets: [
+      {
+        label: "AIEA Research (Unpublished)",
+        concepts: ["research", "ai", "kubernetes", "virtual desktops"],
+        explanation:
+          "Co-authored draft exploring how ML workloads run on Kubernetes-backed virtual desktops — reach out for a copy.",
       },
-    },
+      {
+        label: "Methodology",
+        concepts: ["debugging", "devops"],
+        explanation:
+          "Includes a section on diagnosing failure modes in distributed GPU workloads.",
+      },
+    ],
   },
   {
     id: "hackathon",
@@ -133,22 +187,20 @@ export const links: LinkItem[] = [
     url: "https://example.com/hackathon",
     description: "Award-winning weekend build",
     icon: Rocket,
-    metadata: {
-      keywords: [
-        "hackathon", "prototype", "react", "ai", "design", "ui",
-        "frontend", "demo", "award", "winner",
-      ],
-      explanations: {
-        hackathon: "48-hour project shipped at a recent hackathon.",
-        prototype: "Fast end-to-end prototype with real-time UI.",
-        react: "Built with React and Vite for the frontend.",
-        ai: "Integrates an AI assistant for natural-language queries.",
-        design: "Custom design system shipped in a weekend.",
-        ui: "Polished UI built under hackathon time pressure.",
-        frontend: "Frontend-heavy project — see the live demo.",
-        award: "Won a category prize at the hackathon.",
+    facets: [
+      {
+        label: "48-Hour Build · Category Winner",
+        concepts: ["hackathon", "frontend", "ai", "leadership"],
+        explanation:
+          "Led a 3-person team to a category prize with a polished React + AI demo shipped end-to-end in a weekend.",
       },
-    },
+      {
+        label: "AI Assistant Prototype",
+        concepts: ["ai", "backend"],
+        explanation:
+          "Integrated an LLM-backed natural-language query layer over a real-time data feed.",
+      },
+    ],
   },
 ];
 
