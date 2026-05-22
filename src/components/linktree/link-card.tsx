@@ -7,10 +7,11 @@ type Props = {
   index: number;
   highlighted: boolean;
   dimmed: boolean;
+  matchLabel?: string;
   explanation?: string;
 };
 
-export function LinkCard({ link, index, highlighted, dimmed, explanation }: Props) {
+export function LinkCard({ link, index, highlighted, dimmed, matchLabel, explanation }: Props) {
   const Icon = link.icon;
 
   return (
@@ -66,10 +67,15 @@ export function LinkCard({ link, index, highlighted, dimmed, explanation }: Prop
       {highlighted && explanation && (
         <div
           role="note"
-          className="mt-2 ml-2 flex items-start gap-2 rounded-xl border border-primary/20 bg-primary/5 px-3 py-2 text-[13px] leading-relaxed text-foreground/90 animate-fade-up"
+          className="mt-2 ml-2 flex items-start gap-2 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-[13px] leading-relaxed text-foreground/90 animate-fade-up backdrop-blur-sm"
         >
           <span className="mt-0.5 text-primary">↳</span>
-          <span>{explanation}</span>
+          <span>
+            {matchLabel && (
+              <span className="font-semibold text-foreground">[{matchLabel}]: </span>
+            )}
+            {explanation}
+          </span>
         </div>
       )}
     </li>
