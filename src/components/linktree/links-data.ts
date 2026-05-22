@@ -116,7 +116,7 @@ export const links: LinkItem[] = [
     id: "linkedin",
     title: "LinkedIn",
     url: "https://linkedin.com/in/example",
-    description: "Professional network and endorsements",
+    description: "linkedin.com/in/example",
     icon: Linkedin,
     facets: [
       {
@@ -137,7 +137,7 @@ export const links: LinkItem[] = [
     id: "github",
     title: "GitHub",
     url: "https://github.com/example",
-    description: "Open-source projects and contributions",
+    description: "github.com/example",
     icon: Github,
     facets: [
       {
@@ -164,7 +164,7 @@ export const links: LinkItem[] = [
     id: "research",
     title: "Research Paper",
     url: "#",
-    description: "Unpublished — AIEA research, available on request",
+    description: "Unpublished · AI-Empowered Cybersecurity · UMKC-NSF",
     icon: BookOpen,
     facets: [
       {
@@ -185,7 +185,7 @@ export const links: LinkItem[] = [
     id: "hackathon",
     title: "Hackathon Project",
     url: "https://example.com/hackathon",
-    description: "Award-winning weekend build",
+    description: "24 hour NVIDIA x ASUS · NemoClaw",
     icon: Rocket,
     facets: [
       {
