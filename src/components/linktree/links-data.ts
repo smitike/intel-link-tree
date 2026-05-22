@@ -207,5 +207,9 @@ export const links: LinkItem[] = [
 export const profile = {
   name: "Alex Chen",
   bio: "Software engineer · AIEA researcher · building thoughtful interfaces.",
-  handle: "@alexchen",
+  location: "San Jose, CA",
+  status: "CS student @UCSC",
+  graduation: "Graduating June 2026",
+  /** Set to null/undefined to render an initial-letter avatar instead. */
+  image: null as string | null,
 };
