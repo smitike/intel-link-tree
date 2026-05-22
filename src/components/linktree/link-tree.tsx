@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { ProfileHeader } from "./profile-header";
+import { profile } from "./links-data";
 import { SmartSearchBar } from "./smart-search-bar";
 import { LinkCard } from "./link-card";
 import { links } from "./links-data";
@@ -73,7 +74,15 @@ export function LinkTree() {
       </ul>
 
       <footer className="mt-auto pt-8 text-center text-xs text-muted-foreground">
-        Built with care · Press <kbd className="rounded border border-border bg-secondary px-1">⌘K</kbd> to search
+        <span className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/50 px-3 py-1 backdrop-blur-md">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+          </span>
+          <span className="text-foreground/85">{profile.status}</span>
+          <span aria-hidden className="text-muted-foreground/60">·</span>
+          <span>{profile.graduation}</span>
+        </span>
       </footer>
     </main>
   );

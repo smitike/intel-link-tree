@@ -63,7 +63,7 @@ export function SmartSearchBar({
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          placeholder="Ask anything — e.g. “Kubernetes experience”"
+        placeholder="Search for specific skill, experience, project,…"
           aria-label="Smart search"
           className="flex-1 bg-transparent text-[15px] text-foreground placeholder:text-muted-foreground/80 focus:outline-none"
         />
