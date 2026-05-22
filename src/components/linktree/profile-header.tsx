@@ -36,8 +36,10 @@ export function ProfileHeader() {
         <MapPin className="h-3.5 w-3.5" aria-hidden />
         {profile.location}
       </p>
-      <p className="mt-3 max-w-md text-pretty text-[15px] leading-relaxed text-foreground/80">
-        {profile.bio}
+      <p className="mt-3 inline-flex flex-wrap items-center justify-center gap-2 text-[15px] leading-relaxed text-foreground/85">
+        <span className="font-medium">{profile.status}</span>
+        <span aria-hidden className="text-muted-foreground/60">·</span>
+        <span className="text-foreground/75">{profile.graduation}</span>
       </p>
     </header>
   );
