@@ -46,6 +46,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-primary-glow: var(--primary-glow);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -148,7 +151,33 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-bg);
+    min-height: 100vh;
     color: var(--color-foreground);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
   }
+}
+
+@keyframes link-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.82 0.18 95 / 0.5), var(--shadow-card); }
+  50% { box-shadow: 0 0 0 8px oklch(0.82 0.18 95 / 0), var(--shadow-glow); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-link-pulse {
+  animation: link-pulse 1.6s ease-in-out 2;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
