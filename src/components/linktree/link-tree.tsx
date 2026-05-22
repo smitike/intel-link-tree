@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { ProfileHeader } from "./profile-header";
-import { profile } from "./links-data";
 import { SmartSearchBar } from "./smart-search-bar";
 import { LinkCard } from "./link-card";
 import { links } from "./links-data";
