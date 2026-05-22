@@ -11,8 +11,10 @@ export function LinkTree() {
   const [isThinking, setIsThinking] = useState(false);
 
   const matchMap = useMemo(() => {
-    const map = new Map<string, string>();
-    result?.matches.forEach((m) => map.set(m.linkId, m.explanation));
+    const map = new Map<string, { label: string; explanation: string }>();
+    result?.matches.forEach((m) =>
+      map.set(m.linkId, { label: m.label, explanation: m.explanation }),
+    );
     return map;
   }, [result]);
 
@@ -53,8 +55,8 @@ export function LinkTree() {
 
       <ul className="flex flex-col gap-3">
         {links.map((link, i) => {
-          const explanation = matchMap.get(link.id);
-          const highlighted = !!explanation;
+          const match = matchMap.get(link.id);
+          const highlighted = !!match;
           const dimmed = !!result && hasMatches && !highlighted;
           return (
             <LinkCard
@@ -63,7 +65,8 @@ export function LinkTree() {
               index={i}
               highlighted={highlighted}
               dimmed={dimmed}
-              explanation={explanation}
+              matchLabel={match?.label}
+              explanation={match?.explanation}
             />
           );
         })}
