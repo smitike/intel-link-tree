@@ -12,7 +12,7 @@ type Props = {
   hasResult: boolean;
 };
 
-const suggestions = ["Kubernetes experience", "Open-source projects", "Research", "Hackathon"];
+const suggestions = ["CAN-bus debugging", "Kubernetes experience", "Frontend animations", "Hackathon win"];
 
 export function SmartSearchBar({
   value,
@@ -45,7 +45,7 @@ export function SmartSearchBar({
           onSubmit(value);
         }}
         className={cn(
-          "group relative flex items-center gap-2 rounded-2xl border bg-card px-3 py-2 transition-all duration-[var(--transition-base)]",
+          "group relative flex items-center gap-2 rounded-2xl border bg-card/70 backdrop-blur-xl px-3 py-2 transition-all duration-[var(--transition-base)]",
           "shadow-[var(--shadow-soft)]",
           focused ? "border-primary/60 shadow-[var(--shadow-glow)]" : "border-border/70",
         )}
